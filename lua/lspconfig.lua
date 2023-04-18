@@ -37,7 +37,7 @@ function mt:__index(k)
       k = alias.to
     end
     
-    local is_k_valid = k != nil
+    local is_k_valid = k
     
     if is_k_valid then
       local success, config = pcall(require, 'lspconfig.server_configurations.' .. k)
