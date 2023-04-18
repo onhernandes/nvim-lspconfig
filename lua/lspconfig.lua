@@ -36,11 +36,19 @@ function mt:__index(k)
       vim.deprecate(k, alias.to, alias.version, 'lspconfig', false)
       k = alias.to
     end
-
-    local success, config = pcall(require, 'lspconfig.server_configurations.' .. k)
-    if success then
-      configs[k] = config
-    else
+    
+    local is_k_valid = k == nil
+    
+    if is_k_valid then
+      local success, config = pcall(require, 'lspconfig.server_configurations.' .. k)
+    
+      if success then
+        configs[k] = config
+      end
+      is_k_valid = success
+    end
+    
+    if not is_k_valid then
       vim.notify(
         string.format(
           '[lspconfig] Cannot access configuration for %s. Ensure this server is listed in '
